@@ -31,6 +31,14 @@ defmodule Random.AccountsTest do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
     end
 
+    test "create_user/1 with out-of-range value returns error changeset" do
+      out_of_range_attrs = %{points: -1}
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_user(out_of_range_attrs)
+
+      out_of_range_attrs = %{points: 101}
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_user(out_of_range_attrs)
+    end
+
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
       update_attrs = %{points: 43}
