@@ -1,7 +1,7 @@
 defmodule Random.Accounts.Boundary.DataContainer do
   use GenServer
-  alias Random.Accounts
   alias Random.Repo
+  require Logger
 
   defstruct min_number: nil,
             last_queried: nil
@@ -20,29 +20,26 @@ defmodule Random.Accounts.Boundary.DataContainer do
   end
 
   @impl true
-  def handle_continue(:initialize_points, %{min_number: _min_number, last_queried: _last_queried} = state) do
+  def handle_continue(:initialize_points, state) do
     ## set timer for 60 seconds to update points
     process_send_after(60_000)
-    ## initialize all points with random integer between 0 and 100
-    # update_all_points()
-    ## assign min_number with random integer between 0 and 100
+    ## compute user id blocks and store in ETS
 
-    {:noreply, %{state | min_number: 15, last_queried: DateTime.utc_now()}}
+    {:noreply, state}
   end
 
   @impl true
-  def handle_info(:update_points, %{min_number: min_number, last_queried: last_queried} = state) do
-    IO.puts("\thandle_info:update_points, min_number #{min_number} last_queried #{last_queried}")
+  def handle_info(:update_points, state) do
     process_send_after(60_000)
 
     update_all_points()
 
-    {:noreply, %{state | min_number: rem(min_number + 5, 100), last_queried: DateTime.utc_now()}}
+    {:noreply, %{state | min_number: random_number(101)}}
   end
 
   @impl true
   def terminate(reason, %{min_number: min_number, last_queried: last_queried} = state) do
-    IO.puts("\tterminate reason #{reason} min_number #{min_number} last_queried #{last_queried}")
+    Logger.info("\tterminate reason #{reason} min_number #{min_number} last_queried #{last_queried}")
 
     state
   end
@@ -53,7 +50,6 @@ defmodule Random.Accounts.Boundary.DataContainer do
 
     now = DateTime.to_naive(DateTime.truncate(DateTime.utc_now(), :second))
 
-    # user_update_list =
     1..100
     |> Enum.each(fn outer_value ->
       (outer_value * 10_000 - 9999)..(outer_value * 10_000)
@@ -61,11 +57,10 @@ defmodule Random.Accounts.Boundary.DataContainer do
         %{id: inner_value, points: random_number(101), updated_at: now, inserted_at: now}
       end)
       |> update_all_points()
-      # |> IO.inspect(label: "\nUPDATE_ALL_POINTS\n")
     end)
 
     fin_time = System.monotonic_time(:millisecond)
-    IO.puts("\tupdate_all_points time: #{fin_time - begin_time}")
+    Logger.info("\tupdate_all_points time: #{fin_time - begin_time}")
     :ok
   end
 
@@ -78,7 +73,6 @@ defmodule Random.Accounts.Boundary.DataContainer do
         conflict_target: :id
       )
     end)
-    |> IO.inspect(label: "\nUPDATE_ALL_POIntS RESULT\t")
   end
 
   defp random_number(max_val) do
