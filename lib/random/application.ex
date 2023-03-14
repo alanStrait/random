@@ -15,9 +15,9 @@ defmodule Random.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Random.PubSub},
       # Start the Endpoint (http/https)
-      RandomWeb.Endpoint
-      # Start a worker by calling: Random.Worker.start_link(arg)
-      # {Random.Worker, arg}
+      RandomWeb.Endpoint,
+      # Start a worker
+      {Random.Accounts.Boundary.DataContainer, nil}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
