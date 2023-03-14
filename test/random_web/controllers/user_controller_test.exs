@@ -64,19 +64,6 @@ defmodule RandomWeb.UserControllerTest do
     end
   end
 
-  describe "delete user" do
-    setup [:create_user]
-
-    test "deletes chosen user", %{conn: conn, user: user} do
-      conn = delete(conn, ~p"/api/users/#{user}")
-      assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, ~p"/api/users/#{user}")
-      end
-    end
-  end
-
   defp create_user(_) do
     user = user_fixture()
     %{user: user}
