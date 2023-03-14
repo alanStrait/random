@@ -33,11 +33,18 @@ defmodule Random.Accounts.Boundary.DataContainer do
 
   @impl true
   def handle_call(:users_with_points_gt_min_number, _from, %{last_queried: last_queried} = state) do
-    [u1|[u2|[]]] = Accounts.users_with_points_gt_min_number(state.min_number)
+    # [u1|[u2|[]]] = Accounts.users_with_points_gt_min_number(state.min_number)
+    users =
+      case Accounts.users_with_points_gt_min_number(state.min_number) do
+        [] -> %{users: [], timestamp: last_queried}
+        [u1 | []] -> %{users: [%{id: u1.id, points: u1.points}], timestamp: last_queried}
+        [u1 | [u2|[]]] -> %{users: [%{id: u1.id, points: u1.points}, %{id: u2.id, points: u2.points}], timestamp: last_queried}
+      end
 
     {
       :reply,
-      %{users: [%{id: u1.id, points: u1.points}, %{id: u2.id, points: u2.points}], timestamp: last_queried},
+      # %{users: [%{id: u1.id, points: u1.points}, %{id: u2.id, points: u2.points}], timestamp: last_queried},
+      users,
       %{state | last_queried: DateTime.utc_now()}
     }
   end
