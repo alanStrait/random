@@ -85,4 +85,11 @@ defmodule Random.Accounts do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def users_with_points_gt_min_number(min_number) do
+    from(u in User,
+    where: u.points > ^min_number,
+    limit: 2)
+    |> Repo.all()
+  end
 end

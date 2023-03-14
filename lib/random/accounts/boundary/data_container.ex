@@ -1,9 +1,9 @@
 defmodule Random.Accounts.Boundary.DataContainer do
   use GenServer
-  alias Random.Repo
+  alias Random.{Accounts, Repo}
   require Logger
 
-  defstruct min_number: nil,
+  defstruct min_number: 0,
             last_queried: nil
 
   def start_link(arg) do
@@ -11,6 +11,9 @@ defmodule Random.Accounts.Boundary.DataContainer do
   end
 
   ## Client API
+  def users_with_points_gt_min_number() do
+    GenServer.call(__MODULE__, :users_with_points_gt_min_number)
+  end
 
   ## Server Callbacks
 
@@ -26,6 +29,17 @@ defmodule Random.Accounts.Boundary.DataContainer do
     ## compute user id blocks and store in ETS
 
     {:noreply, state}
+  end
+
+  @impl true
+  def handle_call(:users_with_points_gt_min_number, _from, %{last_queried: last_queried} = state) do
+    [u1|[u2|[]]] = Accounts.users_with_points_gt_min_number(state.min_number)
+
+    {
+      :reply,
+      %{users: [%{id: u1.id, points: u1.points}, %{id: u2.id, points: u2.points}], timestamp: last_queried},
+      %{state | last_queried: DateTime.utc_now()}
+    }
   end
 
   @impl true
