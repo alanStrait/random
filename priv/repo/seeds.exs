@@ -9,3 +9,12 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+alias Random.{Accounts.User, Repo}
+
+now = DateTime.to_naive(DateTime.truncate(DateTime.utc_now(), :second))
+user_attr_list = Enum.into(1..10_000, [], fn _ -> %{points: 0, inserted_at: now, updated_at: now} end)
+
+1..100
+|> Enum.each(fn _ ->
+  Repo.insert_all(User, user_attr_list)
+end)
