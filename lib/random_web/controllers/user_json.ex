@@ -1,24 +1,17 @@
 defmodule RandomWeb.UserJSON do
-  alias Random.Accounts.User
+  # alias Random.Accounts.User
 
   @doc """
-  Renders a list of users.
+  Renders two, or fewer, users with points greater than random min number
+  along with the timestamp for when last queried.
   """
-  def index(%{users: users}) do
-    %{data: for(user <- users, do: data(user))}
-  end
+  def index(%{data: data}) do
+    timestamp =
+      case data.timestamp do
+        nil -> "first query"
+        dt -> to_string(DateTime.to_naive(DateTime.truncate(dt, :second)))
+      end
 
-  @doc """
-  Renders a single user.
-  """
-  def show(%{user: user}) do
-    %{data: data(user)}
-  end
-
-  defp data(%User{} = user) do
-    %{
-      id: user.id,
-      points: user.points
-    }
+    %{data | timestamp: timestamp}
   end
 end

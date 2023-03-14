@@ -8,7 +8,7 @@ defmodule RandomWeb.Router do
   scope "/api", RandomWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/", UserController
   end
 
   # Enable LiveDashboard in development
