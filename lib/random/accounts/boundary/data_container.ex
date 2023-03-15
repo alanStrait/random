@@ -43,11 +43,7 @@ defmodule Random.Accounts.Boundary.DataContainer do
         %{users: user_list, timestamp: last_queried}
       end)
 
-    {
-      :reply,
-      users,
-      %{state | last_queried: DateTime.utc_now()}
-    }
+    {:reply, users, %{state | last_queried: DateTime.utc_now()}}
   end
 
   @impl true
