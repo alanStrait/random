@@ -26,7 +26,7 @@ defmodule Random.Accounts.Boundary.DataContainer do
   def handle_continue(:initialize_points, state) do
     process_send_after(60_000)
 
-    update_all_points()
+    if Mix.env() != :test, do: update_all_points()
 
     {:noreply, %{state | min_number: random_number(101)}}
   end
