@@ -28,7 +28,7 @@ defmodule Random.Accounts.Boundary.DataContainer do
 
     update_all_points()
 
-    {:noreply, state}
+    {:noreply, %{state | min_number: random_number(101)}}
   end
 
   @impl true
