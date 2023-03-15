@@ -86,6 +86,10 @@ defmodule Random.Accounts do
     User.changeset(user, attrs)
   end
 
+  @doc """
+  Returns first two users found whose points are greater
+  than the provided minimum number.
+  """
   def users_with_points_gt_min_number(min_number) do
     from(u in User,
     where: u.points > ^min_number,
