@@ -5,7 +5,7 @@ defmodule RandomWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", RandomWeb do
+  scope "/", RandomWeb do
     pipe_through :api
 
     resources "/", UserController
