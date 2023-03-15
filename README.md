@@ -68,14 +68,10 @@ This repository contains a backend code exercise with the following highlevel de
       - [x] Finds all users with `points` greater than `min_number`
       - [x] Returns the first two of these users along with the `last_queried` timestamp for the prior query, and
       - [x] Updates `last_queried` with a new timestamp
+    - [x] Note, I have used a `boundary` directory for the `GenServer`, following a suggestion by Bruce Tate in `Designing Elixir Systems with OTP`, but I did not place `User` in a `core` directory, but rather treated the `accounts` directory as core
+      - [x] This may be overkill for this short exercise
 - [x] A single endpoint for an API call to return two users whose points are greater than `min_number`
   - [x] [http://localhost:4000/](http://localhost:4000/)
 
-## Bootstrap
-To start your Phoenix server:
-
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Bootstrap (See Quickstart above)
 
