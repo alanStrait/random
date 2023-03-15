@@ -9,10 +9,10 @@ Elixir 1.14.3 (compiled with Erlang/OTP 25)
 ```
 
 ## Quickstart
-[This repository here]
+[git@github.com:alanStrait/random.git](git@github.com:alanStrait/random.git)
 
 ```zsh
-git clone _
+git clone git@github.com:alanStrait/random.git
 cd random
 mix deps.get
 ## Be sure Postgres is available with un/pw in `dev.exs`
