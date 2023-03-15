@@ -7,7 +7,7 @@ defmodule RandomWeb.UserControllerTest do
 
   describe "index" do
     test "lists all users", %{conn: conn} do
-      conn = get(conn, ~p"/api")
+      conn = get(conn, ~p"/")
       assert json_response(conn, 200)["data"] == nil
     end
   end
