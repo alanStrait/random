@@ -62,6 +62,7 @@ This repository contains a backend code exercise provided by a prospective emplo
 - [x] No warnings on application start, `mix phx.server` or `iex -S mix phx.server`
 - [x] A singleton data container `GenServer` that:
     - [x] Starts at application startup
+      - [x] Conditionally update points in `handle_continue`, not performed when in `:test` mode as this was wreaking havoc with `mix test`
     - [x] Manages two properties
       - [x] `min_number`, an integer between 0 and 100
       - [x] A timestamp, I chose to call `last_queried`, that is updated on query request, initialized to be `nil`
