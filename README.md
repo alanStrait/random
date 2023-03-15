@@ -19,6 +19,8 @@ cd random
 mix setup
 # Please use `mix ecto.reset` for `n + 1` setup
 mix ecto.reset
+# Run tests
+mix test
 ## start phoenix
 mix phx.server 
 # or
