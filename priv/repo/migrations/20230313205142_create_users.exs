@@ -3,7 +3,7 @@ defmodule Random.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :points, :integer
+      add :points, :integer, null: false
 
       timestamps()
     end
