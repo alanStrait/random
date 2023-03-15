@@ -24,9 +24,9 @@ defmodule Random.Accounts.Boundary.DataContainer do
 
   @impl true
   def handle_continue(:initialize_points, state) do
-    ## set timer for 60 seconds to update points
     process_send_after(60_000)
-    ## compute user id blocks and store in ETS
+
+    update_all_points()
 
     {:noreply, state}
   end
